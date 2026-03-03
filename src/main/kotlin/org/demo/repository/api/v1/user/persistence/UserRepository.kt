@@ -10,11 +10,25 @@ import org.jetbrains.exposed.v1.jdbc.update
 import org.slf4j.LoggerFactory
 import org.springframework.dao.OptimisticLockingFailureException
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Propagation
+import org.springframework.transaction.annotation.Transactional
 import kotlin.random.Random
 
 @Repository
 class UserRepository {
     private val logger = LoggerFactory.getLogger(this.javaClass)
+
+    // ---- AOP TEST METHODS ----
+    @Transactional
+    fun defaultPropagationTxMethod() {
+        logger.debug("Calling defaultPropagationTxMethod()")
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    fun requiresNewPropagationTxMethod() {
+        logger.debug("Calling requiresNewPropagationTxMethod()")
+    }
+    // -----------------------
 
     fun findById(userId: Long): User? {
         val userEntity = UserEntity.findById(userId) ?: return null

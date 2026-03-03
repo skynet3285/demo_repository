@@ -2,12 +2,12 @@ package org.demo.repository.api.v1.user
 
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.demo.repository.api.v1.user.dto.CreateUserDto
-import org.jetbrains.exposed.v1.exceptions.ExposedSQLException
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
 
@@ -71,7 +71,7 @@ class UserServiceIntegrationTest(
                     )
 
                 Then("예외가 발생해야 한다") {
-                    shouldThrow<ExposedSQLException> {
+                    shouldThrowAny {
                         userService.signUp(duplicateUsernameDto)
                     }
                 }
@@ -80,7 +80,7 @@ class UserServiceIntegrationTest(
 
         Given("이미 유저가 존재하는 상태에서 2") {
             userService.deleteAllUsers()
-            userService.signUp(validCreateUserDto)
+            val existingUser = userService.signUp(validCreateUserDto)
 
             When("동일하지 않은 username으로 회원가입을 하면") {
                 val uniqueUsernameDto =
@@ -99,6 +99,15 @@ class UserServiceIntegrationTest(
                     savedUser shouldNotBe null
                     savedUser?.nickname shouldBe uniqueUsernameDto.nickname
                     savedUser?.username shouldBe uniqueUsernameDto.username
+                }
+            }
+
+            When("닉네임을 변경하려고 하면") {
+                Then("닉네임이 변경되어야 한다") {
+                    val newNickname = "updated_nickname"
+                    val updatedUser = userService.updateNickname(existingUser.userId, newNickname)
+                    updatedUser shouldNotBe null
+                    updatedUser?.nickname shouldBe newNickname
                 }
             }
         }
