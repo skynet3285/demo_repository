@@ -1,7 +1,7 @@
 plugins {
     kotlin("jvm") version "2.3.10"
     kotlin("plugin.spring") version "2.3.10"
-    id("org.springframework.boot") version "4.0.2"
+    id("org.springframework.boot") version "4.0.3"
     id("io.spring.dependency-management") version "1.1.7"
 
     // kotlin lint
@@ -26,29 +26,27 @@ repositories {
     mavenCentral()
 }
 
-val exposedVersion by extra("1.0.0")
+val exposedVersion by extra("1.1.1")
 val mockkVersion by extra("1.14.9")
 val kotestVersion by extra("6.1.3")
 
 dependencies {
     // Swagger
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2")
 
     // Database
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.jetbrains.exposed:exposed-spring-boot4-starter:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-json:$exposedVersion")
     implementation("com.zaxxer:HikariCP:7.0.2")
-    runtimeOnly("org.postgresql:postgresql:42.7.9")
+    runtimeOnly("org.postgresql:postgresql:42.7.10")
 
     // Password hashing
     implementation("org.mindrot:jbcrypt:0.4")
 
-    // Spring Web
+    // Spring Framework
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("tools.jackson.module:jackson-module-kotlin")
