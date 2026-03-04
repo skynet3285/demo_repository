@@ -88,6 +88,11 @@ class UserService(
     }
 
     @Transactional
+    fun unsafeSignUp(user: User) {
+        userRepository.unsafeCreate(user)
+    }
+
+    @Transactional
     fun updateNickname(
         userId: Long,
         newNickname: String,

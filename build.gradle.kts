@@ -24,6 +24,7 @@ java {
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://jitpack.io") }
 }
 
 val exposedVersion by extra("1.1.1")
@@ -36,6 +37,7 @@ dependencies {
 
     // Database
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    implementation("com.github.skynet3285:exposed-exception-translator:v1.0.2")
     implementation("org.jetbrains.exposed:exposed-spring-boot4-starter:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
@@ -69,6 +71,8 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    // https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+    jvmArgs("-XX:+EnableDynamicAgentLoading")
     // https://kotest.io/docs/6.0/framework/project-config.html#setup
     systemProperty("kotest.framework.config.fqn", "org.demo.repository.config.TestConfig")
 }

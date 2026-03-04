@@ -79,6 +79,19 @@ class UserRepository {
         user.setUserId(id)
     }
 
+    fun unsafeCreate(user: User) {
+        UserTable.insert {
+            it[UserTable.id] = user.userId
+            it[nickname] = user.nickname
+            it[username] = user.username
+            it[password] = user.password
+            it[status] = user.status.name
+            it[createdAt] = user.createdAt
+            it[lastAccessAt] = user.lastAccessAt
+            it[role] = user.role.name
+        }
+    }
+
     fun save(user: User) {
         check(user.userId != -1L) {
             "Cannot update a user that has not been created yet."
