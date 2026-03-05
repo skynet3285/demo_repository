@@ -6,7 +6,7 @@ import io.kotest.extensions.spring.SpringExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
 
 // https://kotest.io/docs/6.0/extensions/spring.html
-object TestConfig : AbstractProjectConfig() {
+class TestConfig : AbstractProjectConfig() {
     override val extensions: List<Extension> =
         listOf(SpringExtension(SpringTestLifecycleMode.Root)) // default is SpringTestLifecycleMode.Test
 }
